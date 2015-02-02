@@ -1,0 +1,355 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+  <title>WS02 WSF/PHP SECURITY MANUAL</title>
+  <link href="style/api_style.css" rel="stylesheet" type="text/css"
+  media="all">
+</head>
+
+<body lang="en">
+<h1><span style="font-family: Arial;">8. Security Manual</span></h1>
+
+<h2 id="1">8.1. Writing a Secure Web Service Client</h2>
+
+<p>First create a suitable payload to be sent to the echo service.</p>
+
+<p>$req_payload_string =&nbsp; &lt;&lt;&lt;XML &lt;ns1:echoString
+xmlns="http://www.wsf.org/echo/echoString"&gt;&lt;text&gt;Hello
+RM!&lt;/text&gt;&lt;/ns1:echoString&gt;XML;</p>
+
+<p></p>
+
+<p>Note that in order to run security clients or services, you should engage
+WS-Addressing</p>
+
+<p>          $reqMessage =   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; new WSMessage($reqPayloadString,<br>
+    &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;array("<span style="color: #ff6666">to</span>" =&gt;"<span
+style="color:#ff6666">http://localhost/samples/security_service.php</span>",<br>
+<span style="color: #ff6666">                 &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;action</span>" =&gt;"<span
+style="color:#ff6666">http://wso2.org/wsfphp/samples/echoString</span>"));</p>
+
+<p>Then create a WSPolicy object with the security options to match your
+requirements.</p>
+
+<p>For example, if you want to include TimeStamp and UsernameToken you can do
+as follows.</p>
+
+<p>$policy = new WSPolicy(array("<span
+style="color: #ff3333">security</span>" =&gt; array("<span
+style="color: #ff3333">useUsernameToken</span>" =&gt; TRUE, "<span
+style="color: #ff3333">includeTimeStamp</span>" =&gt; TRUE)));</p>
+
+<p></p>
+
+<p><strong>Note: If you wish to use a policy file instead of an options array
+you can directly set a policy XML file.</strong></p>
+
+<p>$policy_xml = file_get_contents("<span
+style="color: #ff3333">policy.xml</span>");</p>
+
+<p>$policy = new WSPolicy(array("<span
+style="color: #ff3333">security</span>" =&gt; $policy_xml));</p>
+
+<p></p>
+
+<p>Next create a SecurityToken object with appropriate security
+properties.</p>
+
+<p>If you want to have the UsernameToken, then the user, password and
+passwordType (optional) options must be set. For TimeStamp, the ttl option
+must be set. Hence the SecurityToken object is created as</p>
+
+<p>$sec_token = new WSSecurityToken(array("<span
+style="color: #ff3333">user</span>" =&gt; "<span
+style="color: #ff3333">bob</span>",<br>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"<span style="color: #ff3333">password</span>" =&gt; "<span
+style="color: #ff3333">bob12</span>",<br>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"<span style="color: #ff3333">passwordType</span>" =&gt; "<span
+style="color: #ff3333">Digest</span>",<br>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"ttl" =&gt; 300));</p>
+
+<p></p>
+
+<p>Then create the client using the policy object and security token
+object.</p>
+
+<p>$client = new WSClient(array("<span style="color: #ff3333">useWSA</span>"
+=&gt; TRUE,<br>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"<span style="color: #ff3333">policy</span>" =&gt; $policy,<br>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"<span style="color: #ff3333">securityToken</span>" =&gt;
+$sec_token));<br>
+</p>
+
+<p></p>
+
+<p>$resMessage = $client-&gt;request($reqMessage);</p>
+
+<p></p>
+
+<h2 id="2">8.2. Writing a Secure Web Service</h2>
+
+<p>Make sure that the addressing action is set in WSService.</p>
+
+<p>function echoFunction($inMessage) {<br>
+</p>
+
+<p>$returnMessage = new WSMessage($inMessage-&gt;str);</p>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;return $returnMessage;<br>
+}
+
+<p>$operations = array("<span style="color: #ff3333">echoString</span>" =&gt;
+"<span style="color: #ff3333">echoFunction</span>");</p>
+
+<p>$actions = array("<span
+style="color: #ff3333">http://wso2.org/wsfphp/samples/echoString</span>" =&gt;
+"<span style="color: #ff3333">echoString</span>");</p>
+
+<p></p>
+
+<p>If the client has specified the username and timestamp, these options
+should be set in the server side also.</p>
+
+<p>$policy = new WSPolicy(array("<span
+style="color: #ff3333">security</span>"=&gt;array("<span
+style="color: #ff3333">useUsernameToken</span>" =&gt; TRUE,<br>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"<span style="color: #ff3333">includeTimeStamp</span>" =&gt;
+TRUE)));</p>
+
+<p></p>
+
+<p><strong>Note: If you wish to use a policy file instead of an options
+array, you can directly set the policy XML file.</strong></p>
+
+<p>$policy_xml = file_get_contents("<span
+style="color: #ff6633">policy.xml</span>")</p>
+
+<p>$policy = new WSPolicy(array("<span
+style="color: #ff3333">security</span>" =&gt; $policy_xml));</p>
+
+<p></p>
+
+<p>Username and password must be provided for validation on the server
+side.</p>
+
+<p>$sec_token = new WSSecurityToken(array("<span
+style="color: #ff3333">user</span>" =&gt; "<span
+style="color: #ff3333">bob</span>", "<span
+style="color: #ff3333">password</span>" =&gt; "<span
+style="color: #ff3333">bob12</span>", "<span
+style="color: #ff3333">passwordType</span>" =&gt;"Digest',<br>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;""ttl" =&gt; 100));<br>
+$svr = new WSService(array("operations" =&gt; $operations,<br>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"actions" =&gt; $actions,<br>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"policy" =&gt; $policy,<br>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"securityToken" =&gt; $sec_token));</p>
+
+<p></p>
+
+<p>$svr-&gt;reply();</p>
+
+<p></p>
+
+<p></p>
+
+<h2 id="3">8.3. Encryption and Signing</h2>
+
+<p></p>
+
+<p>For encryption and signing, keys and certificates must be provided using
+the two functions:</p>
+
+<p>ws_get_cert_from_file();</p>
+
+<p>ws_get_key_from_file();</p>
+
+<h3>8.3.1. Encryption on the Client Side</h3>
+
+<p>The Receivers certificate (certificate used by the server side) must be
+set using the "receiverCertificate" option and the private key of the client
+must be set using the "privateKey" option with a WSSecurityToken object
+instance.</p>
+
+<p>First load the certificates:</p>
+
+<p>$rec_cert = ws_get_cert_from_file("../keys/bob_cert.cert"); <br>
+$pvt_key = ws_get_key_from_file("../keys/alice_key.pem");</p>
+
+<p>Then the Policy object and the SecurityToken object have to be created.
+When creating the Policy object, you can also specify the algorithm suite to
+be used.</p>
+
+<p>$policy = new
+WSPolicy(array("security"=&gt;array("encrypt"=&gt;TRUE,"algorithmSuite" =&gt;
+"Basic256Rsa15",)));<br>
+$sec_token = new WSSecurityToken(array("privateKey" =&gt;
+$pvt_key,"receiverCertificate" =&gt; $rec_cert));</p>
+
+<h3>8.3.2. Encryption on the Server Side</h3>
+
+<p>Here the certificate of the client and private key of the server are
+provided using a WSSecurityToken object instance.</p>
+
+<p>$pub_key = ws_get_cert_from_file("../keys/alice_cert.cert");<br>
+$pvt_key = ws_get_key_from_file("../keys/bob_key.pem");</p>
+
+<p>Options for WSPolicy object is the same as on the client side.</p>
+
+<p>$policy = new WSPolicy(array("security"=&gt;array("encrypt" =&gt; TRUE,
+"algorithmSuite" =&gt; "Basic256Rsa15")));<br>
+$sec_token = new WSSecurityToken(array("privateKey" =&gt; $pvt_key,
+"receiverCertificate" =&gt;$pub_key));</p>
+
+<p></p>
+
+<h3>8.3.3. Signing on the Client Side</h3>
+
+<p>For signing, the certificate and the key of the client and the certificate
+of the server must be set.</p>
+
+<p>$my_cert = ws_get_cert_from_file("../keys/alice_cert.cert");<br>
+$my_key = ws_get_key_from_file("../keys/alice_key.pem");<br>
+$rec_cert = ws_get_cert_from_file("../keys/bob_cert.cert");</p>
+
+<p>Then the Policy object and the SecurityToken object can be created:</p>
+
+<p>$policy = new
+WSPolicy(array("security"=&gt;array("sign"=&gt;TRUE,"algorithmSuite" =&gt;
+"Basic256Rsa15",)));<br>
+$sec_token = new WSSecurityToken(array("privateKey" =&gt; $my_key,
+"certificate" =&gt; $my_cert, "receiverCertificate" =&gt; $rec_cert));</p>
+
+<h3>8.3.4. Signing on the Server Side</h3>
+
+<p>Here the certificate and the key of the service side must be set:</p>
+
+<p>$cert = ws_get_cert_from_file("../keys/bob_cert.cert");<br>
+$pvt_key = ws_get_key_from_file("../keys/bob_key.pem");</p>
+
+<p>Options for the Policy object and the SecurityToken object are the same as
+on the client side.</p>
+
+<p>$policy = new WSPolicy(array("security"=&gt;array("sign" =&gt;
+TRUE,"algorithmSuite" =&gt; "Basic256Rsa15")));<br>
+$sec_token = new WSSecurityToken(array("privateKey" =&gt; $pvt_key,
+"certificate" =&gt; $cert));</p>
+
+<h3>8.3.5 Secure conversation</h3>
+
+<p>
+Secure conversation is supported using a set of callback functions and configured using the policy
+files. At service, you can specify operation level policies using
+        the "opPolicies" array. In the default configuration, the establishment of the
+        secure conversation token / security context token happens when first message is
+        sent. By using the option "UseOwnSTS" you can configure a service to act as a security
+        token service in addition to providing the service functionality.
+</p>
+    <p>
+        It is users responsibility to implement the persisting of the security tokens (
+        Secure conversation token/Security Context Token ) across multiple messages. The
+        tokens are provided in string from to the service or client using callback functions.&nbsp;
+    </p>
+    <p>
+        <strong>Following code samples demonstrate how to configure a client.</strong></p>
+    <p>
+        &nbsp;$policy_xml = file_get_contents("policy.xml");
+    </p>
+    <p>
+        $policy = new WSPolicy($policy_xml);
+    </p>
+    <p>
+        $security_token = new WSSecurityToken(array("user" =&gt; "Raigama", "password" =&gt;
+        "RaigamaPW", "passwordType" =&gt; "Digest", "storeSCTCallback" =&gt; "sct_store_callback",
+        "getSCTCallback" =&gt; "sct_get_callback", "deleteSCTCallback"=&gt;"sct_delete_callback"));
+    </p>
+    <p>
+        Here, functions "<strong>sct_store_callback</strong>", "<strong>sct_get_callback</strong>",
+        "<strong>sct_delete_callback</strong>" are callback function names.
+    </p>
+    <p>
+        <strong>Following code sample demonstrate how to configure a service.</strong></p>
+    <p>
+        $security_token = new WSSecurityToken(array("user" =&gt; "Raigama", "password" =&gt;
+        "RaigamaPW", "passwordType" =&gt; "Digest", "storeSCTCallback" =&gt; "sct_store_callback",
+        "getSCTCallback" =&gt; "sct_get_callback", "deleteSCTCallback"=&gt;"sct_delete_callback"));
+    </p>
+    <p>
+        Again the <strong>sct_store_callback</strong>, <strong>sct_get_callback, sct_delete_callback
+        </strong>are user implemented php functions which are registered as callbacks.</p>
+    <p>
+        $svr = new WSService(array("operations" =&gt; $operations, "actions" =&gt; $actions,
+        "opPolicies"=&gt;array("echoString"=&gt;$policy),&nbsp; "useOwnSTS"=&gt;true, "securityToken"
+        =&gt; $security_token));</p>
+    <p>
+        Here the service is configured to act as &nbsp;a security token service in addition
+        providing the service functionality.</p>
+    <h2>
+        8.4. Code Sample on Encryption</h2>
+
+<h3>Client Code:</h3>
+<pre>$reqPayloadString = &lt;&lt;&lt;XML
+&lt;ns1:echo xmlns:ns1="http://wso2.org/wsfphp/samples"&gt;&lt;text&gt;Hello
+World!&lt;/text&gt;&lt;/ns1:echo&gt;
+XML;
+
+try {
+
+    $rec_cert = ws_get_cert_from_file("../keys/bob_cert.cert");
+    $pvt_key = ws_get_key_from_file("../keys/alice_key.pem");
+
+    $reqMessage = new WSMessage($reqPayloadString,
+        array("to"=&gt;"http://localhost/samples/security/encryption/encrypt_service.php",
+              "action" =&gt; "http://wso2.org/wsfphp/samples/echoString"));
+
+    $sec_array = array("encrypt"=&gt;TRUE, "algorithmSuite" =&gt; "Basic256Rsa15",
+                       "securityTokenReference" =&gt; "IssuerSerial");
+
+    $policy = new WSPolicy(array("security"=&gt;$sec_array));
+    $sec_token = new WSSecurityToken(array("privateKey" =&gt; $pvt_key, 
+                                            "receiverCertificate" =&gt; $rec_cert));
+
+    $client = new WSClient(array("useWSA" =&gt; TRUE, "policy" =&gt; $policy, 
+                                 "securityToken" =&gt; $sec_token));
+
+    $resMessage = $client-&gt;request($reqMessage);
+
+    printf("Response = %s \n", $resMessage-&gt;str);
+
+} catch (Exception $e) {
+
+    if ($e instanceof WSFault) {
+        printf("Soap Fault: %s\n", $e-&gt;Reason);
+    } else {
+        printf("Message = %s\n",$e-&gt;getMessage());
+    }
+}</pre>
+
+<h3>Service Code:</h3>
+<pre>    function echoFunction($inMessage) {
+        $returnMessage = new WSMessage($inMessage-&gt;str);
+        return $returnMessage;
+    }
+
+    $pub_key = ws_get_cert_from_file("../keys/alice_cert.cert");
+    $pvt_key = ws_get_key_from_file("../keys/bob_key.pem");
+
+    $operations = array("echoString" =&gt; "echoFunction");
+
+    $sec_array = array("encrypt" =&gt; TRUE, "algorithmSuite" =&gt; "Basic256Rsa15",
+                       "securityTokenReference" =&gt; "IssuerSerial");
+
+    $actions = array("http://wso2.org/wsfphp/samples/echoString" =&gt; "echoString");
+
+    $policy = new WSPolicy(array("security"=&gt;$sec_array));
+    $sec_token = new WSSecurityToken(array("privateKey" =&gt; $pvt_key, 
+                                           "receiverCertificate" =&gt;$pub_key));
+
+    $svr = new WSService(array("actions" =&gt; $actions, "operations" =&gt; $operations, 
+                               "policy" =&gt; $policy, "securityToken" =&gt; $sec_token)); 
+
+    $svr-&gt;reply();
+</pre>
+</body>
+</html>

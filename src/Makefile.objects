@@ -1,0 +1,24 @@
+wsf.lo: /home/nandika/work/wsfphp/2.1.0dist/src/wsf.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/home/nandika/work/wsfphp/2.1.0dist/src $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /home/nandika/work/wsfphp/2.1.0dist/src/wsf.c -o wsf.lo 
+wsf_xml_msg_recv.lo: /home/nandika/work/wsfphp/2.1.0dist/src/wsf_xml_msg_recv.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/home/nandika/work/wsfphp/2.1.0dist/src $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /home/nandika/work/wsfphp/2.1.0dist/src/wsf_xml_msg_recv.c -o wsf_xml_msg_recv.lo 
+wsf_util.lo: /home/nandika/work/wsfphp/2.1.0dist/src/wsf_util.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/home/nandika/work/wsfphp/2.1.0dist/src $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /home/nandika/work/wsfphp/2.1.0dist/src/wsf_util.c -o wsf_util.lo 
+wsf_stream.lo: /home/nandika/work/wsfphp/2.1.0dist/src/wsf_stream.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/home/nandika/work/wsfphp/2.1.0dist/src $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /home/nandika/work/wsfphp/2.1.0dist/src/wsf_stream.c -o wsf_stream.lo 
+wsf_worker.lo: /home/nandika/work/wsfphp/2.1.0dist/src/wsf_worker.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/home/nandika/work/wsfphp/2.1.0dist/src $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /home/nandika/work/wsfphp/2.1.0dist/src/wsf_worker.c -o wsf_worker.lo 
+wsf_out_transport_info.lo: /home/nandika/work/wsfphp/2.1.0dist/src/wsf_out_transport_info.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/home/nandika/work/wsfphp/2.1.0dist/src $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /home/nandika/work/wsfphp/2.1.0dist/src/wsf_out_transport_info.c -o wsf_out_transport_info.lo 
+wsf_client.lo: /home/nandika/work/wsfphp/2.1.0dist/src/wsf_client.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/home/nandika/work/wsfphp/2.1.0dist/src $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /home/nandika/work/wsfphp/2.1.0dist/src/wsf_client.c -o wsf_client.lo 
+wsf_policy.lo: /home/nandika/work/wsfphp/2.1.0dist/src/wsf_policy.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/home/nandika/work/wsfphp/2.1.0dist/src $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /home/nandika/work/wsfphp/2.1.0dist/src/wsf_policy.c -o wsf_policy.lo 
+wsf_wsdl.lo: /home/nandika/work/wsfphp/2.1.0dist/src/wsf_wsdl.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/home/nandika/work/wsfphp/2.1.0dist/src $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /home/nandika/work/wsfphp/2.1.0dist/src/wsf_wsdl.c -o wsf_wsdl.lo 
+$(phplibdir)/wsf.la: ./wsf.la
+	$(LIBTOOL) --mode=install cp ./wsf.la $(phplibdir)
+
+./wsf.la: $(shared_objects_wsf) $(WSF_SHARED_DEPENDENCIES)
+	$(LIBTOOL) --mode=link $(CC) $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS) $(LDFLAGS) -o $@ -export-dynamic -avoid-version -prefer-pic -module -rpath $(phplibdir) $(EXTRA_LDFLAGS) $(shared_objects_wsf) $(WSF_SHARED_LIBADD)
+

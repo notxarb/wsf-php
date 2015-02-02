@@ -1,0 +1,569 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="" />
+  <title>WS Security API</title>
+  <link href="style/api_style.css" rel="stylesheet" type="text/css"
+  media="all" />
+</head>
+
+<body xml:lang="en" lang="en">
+<h1>WS Security API</h1>
+
+<h2>Predefined Classes for WS Security</h2>
+
+<h3 id="wspolicy">WSPolicy</h3>
+
+<h4 id="ws_policy_construct">Constructor</h4>
+
+<p><strong>WSPolicy (mixed policy)</strong></p>
+
+<p>Construct a new WSPolicy Object. <br />
+A policy can be one of following.</p>
+
+<p>1. XML string representing the corresponding policy.</p>
+
+<p>2. Array </p>
+
+<p>An array of options can be specified using the syntax given below.<br />
+array("security"=&gt;array of security options)<br />
+</p>
+
+<p>When using WSPolicy, you can use a policy XML file to configure the
+security options to be used. When the user has a policy file, he or she can
+create a policy object using an XML string or a DOM node corresponding to
+that policy file. This is the recommended scenario. In addition to that, the
+WSO2 WSF/PHP security API gives you the ability to configure a minimum set of
+security features by using an options array that is accepted by the WSPolicy
+constructor. The following is a description of the options that can be
+provided in the options array. Examples will be provided on the policy files
+later in this document.</p>
+
+<p></p>
+
+<p></p>
+
+<table border="1">
+  <tbody>
+    <tr>
+      <th id="policy_options">Option</th>
+      <th>Data Type</th>
+      <th style="width: 195px">Value Domain</th>
+      <th style="width: 139px">Default Value</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>sign</td>
+      <td>string | boolean</td>
+      <td style="width: 195px">TRUE | "X509"</td>
+      <td style="width: 139px">FALSE</td>
+      <td>Whether to sign the XML message or not. By default signing is not
+        enabled. <br clear="all" />
+        If specified "sign"=&gt;TRUE, the body part of the SOAP message will
+        be signed using the X509 standard. <br clear="all" />
+        Signing will be done on the body part of the message. To sign other
+        parts of the message, a policy file should be used.</td>
+    </tr>
+    <tr>
+      <td>encrypt</td>
+      <td>string | boolean</td>
+      <td style="width: 195px">TRUE | "X509" <br clear="all" />
+      </td>
+      <td style="width: 139px">FALSE</td>
+      <td>Whether to encrypt the XML message or not. By default encryption is
+        not enabled. <br clear="all" />
+        If specified "encrypt"=&gt;TRUE, the body part of the SOAP message
+        will be encrypted using the X509 standard. <br clear="all" />
+        Encrypting will be done on the body part of the message. To encrypt
+        headers, a policy file should be used.</td>
+    </tr>
+    <tr>
+      <td>algorithmSuite</td>
+      <td>string</td>
+      <td style="width: 195px">corresponds to Security Policy spec 7.1
+        [Algorithm Suite] definitions <br clear="all" />
+      </td>
+      <td style="width: 139px">"Basic256Rsa15"</td>
+      <td>The symmetric algorithm and asymmetric algorithm will be derived
+        from the algorithmSuite string. </td>
+    </tr>
+    <tr>
+      <td>layout</td>
+      <td>string</td>
+      <td style="width: 195px">"Strict" | "Lax"</td>
+      <td style="width: 139px">"Strict"</td>
+      <td>Defines the element order in the security header. These are defined
+        in the WS Security Policy Specification 1.1 section 7.7</td>
+    </tr>
+    <tr>
+      <td>includeTimeStamp</td>
+      <td>bool</td>
+      <td style="width: 195px">TRUE</td>
+      <td style="width: 139px">FALSE</td>
+      <td>If specified TRUE and the user provided the ttl (time to live )
+        value when providing the security token object, the timestamp will be
+        used.</td>
+    </tr>
+    <tr>
+      <td>protectionOrder</td>
+      <td>string</td>
+      <td style="width: 195px">"EncryptBeforeSigning" |
+      "SignBeforeEncrypt"</td>
+      <td style="width: 139px">
+    "SignBeforeEncrypt"</td>
+      <td>The order in which integrity and confidentiality are applied to the
+        message in cases where both integrity and confidentiality are
+        required.</td>
+    </tr>
+    <tr>
+      <td>useUsernameToken</td>
+      <td>boolean</td>
+      <td style="width: 195px">TRUE</td>
+      <td style="width: 139px">FALSE</td>
+      <td>If the necessary options are provided with the WSSecurityToken
+        object, and if "useUsernameToken"=&gt;TRUE , then the UsernameToken
+        will be enabled.</td>
+    </tr>
+    <tr>
+      <td>securityTokenReference</td>
+      <td>string</td>
+      <td style="width: 195px">"IssuerSerial" |
+        "KeyIdentifier"|"EmbeddedToken" <br clear="all" />
+        |"Thumbprint"| "Direct" <br clear="all" />
+      </td>
+      <td style="width: 139px">"KeyIdentifier" <br clear="all" />
+      </td>
+      <td>Defines how the security tokens are sent when using encryption. <br
+        clear="all" />
+        If you wish to have security token references when signing, you
+        should provide the appropriate policy file. <br clear="all" />
+      </td>
+    </tr>
+    <tr>
+      <td>encryptSignature</td>
+      <td>boolean</td>
+      <td style="width: 195px">TRUE</td>
+      <td style="width: 139px">FALSE</td>
+      <td>If specified TRUE the message signature (the primary signature) must be encrypted.
+      </td>
+    </tr>
+    <tr>
+      <td>
+    binding</td>
+      <td>
+    string</td>
+      <td style="width: 195px">
+    "Asymmetric" | "Symmetric"</td>
+      <td style="width: 139px">
+    "Asymmetric"</td>
+      <td>
+    By default, all security bindings will be Asymmetric meaning that public key security
+    options will be used. By setting the binding option to "Symmetric" symmetric key
+    usage can be enforced.
+      </td>
+    </tr>
+    <tr>
+      <td style="height: 64px">
+          inMessagePolicy</td>
+      <td style="height: 64px">
+          mixed<br />
+          array or string</td>
+      <td style="width: 195px; height: 64px;">
+          NONE</td>
+      <td style="width: 139px; height: 64px">
+          NONE</td>
+      <td style="height: 64px">
+          This option is only useful in specifying operation level policies. When considering
+          an operation, the policies can be specified for the incoming message as well as
+          for the outgoing message. In this case the policy object can be constructed by specifying
+          an array as follows.<br />
+          $policy = new WSPolicy(<br />
+          array("inMessagePolicy"=&gt;$sec_array,<br />
+          "outMessagePolicy"=&gt;$sec_array));</td>
+    </tr>
+    <tr>
+      <td>
+          outMessagePolicy</td>
+      <td>
+          mixed<br />
+          array or string</td>
+      <td style="width: 195px">
+          NONE</td>
+      <td style="width: 139px">
+          NONE</td>
+      <td>
+          This is exactly the same as the option "inMessagePolicy". Another code snippet using
+          a policy xml strings.<br />
+          <br />
+          $policy = new WSPolicy(<br />
+          array("inMessagePolicy"=&gt;$in_policy_str,<br />
+          "outMessagePolicy"=&gt;$out_policy_str));</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="ws_security_token">WSSecurityToken</h3>
+
+<p>A PHP level object that logically represents security properties. This
+object will be used to specify the security properties from the client or
+service.</p>
+
+<p><b id="ws_security_token">WSSecurityToken::__construct(array of
+options)</b></p>
+
+<p>Options that can be provided in the options array are detailed in the
+following table.</p>
+
+<table class="confluenceTable" border="1">
+  <tbody>
+    <tr>
+      <th class="confluenceTh">Option</th>
+      <th class="confluenceTh">Data Type</th>
+      <th class="confluenceTh">Value Domain</th>
+      <th class="confluenceTh">Default Value</th>
+      <th class="confluenceTh" style="width: 415px">Description</th>
+    </tr>
+    <tr>
+      <td class="confluenceTd">user</td>
+      <td class="confluenceTd">string</td>
+      <td class="confluenceTd">string</td>
+      <td class="confluenceTd">none</td>
+      <td class="confluenceTd" style="width: 415px">Username</td>
+    </tr>
+    <tr>
+      <td class="confluenceTd" style="height: 21px">certificate</td>
+      <td class="confluenceTd" style="height: 21px">string</td>
+      <td class="confluenceTd" style="height: 21px">string</td>
+      <td class="confluenceTd" style="height: 21px">none</td>
+      <td class="confluenceTd" style="width: 415px; height: 21px">
+    producer's certificate (public key). This should be loaded using the function <strong>
+        ws_get_cert_from_file(). </strong>This key is send to the receiver with security
+    headers.</td>
+    </tr>
+    <tr>
+      <td class="confluenceTd">passwordType</td>
+      <td class="confluenceTd">string</td>
+      <td class="confluenceTd">"PlainText" |"Digest"</td>
+      <td class="confluenceTd">Digest</td>
+      <td class="confluenceTd" style="width: 415px">Password type to be used in
+        UsernameToken</td>
+    </tr>
+    <tr>
+      <td class="confluenceTd">password</td>
+      <td class="confluenceTd">string</td>
+      <td class="confluenceTd">string</td>
+      <td class="confluenceTd">none</td>
+      <td class="confluenceTd" style="width: 415px">
+          Producer's password to be used for
+        UsernameToken</td>
+    </tr>
+    <tr>
+      <td class="confluenceTd" style="height: 21px">privateKey</td>
+      <td class="confluenceTd" style="height: 21px">string</td>
+      <td class="confluenceTd" style="height: 21px">string</td>
+      <td class="confluenceTd" style="height: 21px">none</td>
+      <td class="confluenceTd" style="width: 415px; height: 21px">
+          Producer's
+        private key. Should be loaded using the function <strong>ws_get_key_from_file()</strong></td>
+    </tr>
+    <tr>
+      <td class="confluenceTd">receiverCertificate</td>
+      <td class="confluenceTd">string</td>
+      <td class="confluenceTd">string<br clear="all" />
+      </td>
+      <td class="confluenceTd">none</td>
+      <td class="confluenceTd" style="width: 415px">Receiver's certificate. Should be loaded from the function <strong>ws_get_cert_from_file()</strong></td>
+    </tr>
+    <tr>
+      <td class="confluenceTd">ttl <br clear="all" />
+      </td>
+      <td class="confluenceTd">int <br clear="all" />
+      </td>
+      <td class="confluenceTd">int <br clear="all" />
+      </td>
+      <td class="confluenceTd">360</td>
+      <td class="confluenceTd" style="width: 415px">The time period within
+        which the message would be valid (<strong>time to live</strong>)
+          in seconds <br clear="all" />
+      </td>
+    </tr>
+    <tr>
+      <td class="confluenceTd">
+    passwordCallback</td>
+      <td class="confluenceTd">string</td>
+      <td class="confluenceTd">string</td>
+      <td class="confluenceTd">none</td>
+      <td class="confluenceTd" style="width: 415px">Name of the password
+        callback function, which is a user defined function that accepts a
+        username and returns the corresponding password. The signature of this function
+        should be like<br />
+        <strong>string function_name(string username[,mixed args]). </strong>The args is
+        an optional argument in case the user was to pass additional data to the function
+        that would be necessary to obtain the password.</td>
+    </tr>
+     <tr>
+      <td class="confluenceTd">
+        passwordCallbackData</td>
+      <td class="confluenceTd">
+        mixed</td>
+      <td class="confluenceTd">
+        mixed</td>
+      <td class="confluenceTd">none</td>
+      <td class="confluenceTd" style="width: 415px">
+        Any optional arguments that must be available in the passwordCallback function
+        can be set using this option.</td>
+    </tr>
+     <tr>
+      <td class="confluenceTd">
+      replayDetectionCallback</td>
+      <td class="confluenceTd">string</td>
+      <td class="confluenceTd">string</td>
+      <td class="confluenceTd">none</td>
+      <td class="confluenceTd" style="width: 415px">Name of the replay detection callback function, which is a user defined function
+      that accepts a message_id, time stamp and any optional arguments set using replayDectionCallbackData.
+      The functions implementation should be such that it should store all received unique
+      message ids and timestamps. If an existing message id + timestamp is encountered,
+      it should return false, indicating a replay, otherwise it should return true. The
+          time stamp comes to the callback only if the message contains timestamps. Example
+          function signature for a replyDetectionCallback would be like<br />
+          <strong>boolean function_name(string message_id, string timestamp [,mixed args]). args
+          </strong>is an optional argument.</td>
+    </tr>
+     <tr>
+      <td class="confluenceTd" style="height: 38px">
+      replayDetectionCallbackData</td>
+      <td class="confluenceTd" style="height: 38px">mixed</td>
+      <td class="confluenceTd" style="height: 38px">mixed</td>
+      <td class="confluenceTd" style="height: 38px">none</td>
+      <td class="confluenceTd" style="width: 415px; height: 38px;">Any optional values that is needed in callback
+      function can be provided using this option. </td>
+    </tr>
+    <tr>
+      <td class="confluenceTd" style="height: 55px">
+          storeSCTCallback</td>
+      <td class="confluenceTd" style="height: 55px">
+          string</td>
+      <td class="confluenceTd" style="height: 55px">
+          string</td>
+      <td class="confluenceTd" style="height: 55px">none</td>
+      <td class="confluenceTd" style="width: 415px; height: 55px;">
+          This is a callback function that should be specified for using secure conversation.
+          This function is called from the WSF/PHP in order to store the {SecurityContextToken/SecureConversationToekn}
+              values. The callback function signature should be as follows.<br />
+          <strong>boolean function_name(string security_token, string global_id,string local_id
+              [,mixed args])<br />
+              <br />
+              security_token </strong>string will always be available. The <strong>gloabl_id
+              </strong>or the <strong>local_id </strong>should be used as the key in storing
+          the security token string. Only one of global_id or local_id or both ids may be available
+              depending on the scenario. args parameter will contain the data specified using the "SCTCallbackData" option.If the persisting
+          of the security&nbsp; token is successfull, the fuction should return <strong>true,
+              false </strong>otherwise.
+      </td>
+    </tr><tr>
+      <td class="confluenceTd">
+          getSCTCallback</td>
+      <td class="confluenceTd">mixed</td>
+      <td class="confluenceTd">mixed</td>
+      <td class="confluenceTd">none</td>
+      <td class="confluenceTd" style="width: 415px">
+          This callback function is called from WSF/PHP to obtain the presisted security token string. The callback function signature should be as follows.&nbsp;<br />
+              <strong>string function(string sct_id, int sct_id_type, bool is_encryption[.mixed args])<br />
+                  sct_id </strong>contains<strong> </strong>the value that was used as the key
+              in storing the security token string. The second variable specifies whether
+              the provided key is a global id or a local id. If the provided sct_id is a global id,
+              the sct_id_type value will be 2 (constant WS_SCT_ID_GLOBAL) and if the sct_id is
+              local_id then it will be 1 (constant WS_SCT_ID_LOCAL).
+              <br />
+              However, if security context token (pre-agreed and established offline) is refered,
+              then sct_id might be NULL. Such a situation can be handled by refering to is_encryption
+              value, so that if the pre-agreed sct is different for encryption and signature,
+              then it could be accessed based on is_encryption_value.
+              <br />
+          </td>
+    </tr><tr>
+      <td class="confluenceTd">
+          deleteSCTCallback</td>
+      <td class="confluenceTd">mixed</td>
+      <td class="confluenceTd">mixed</td>
+      <td class="confluenceTd">none</td>
+      <td class="confluenceTd" style="width: 415px">
+          This callback function is called from WSF/PHP to delete persisted security 
+          token strings with a given id. The function signature<br />
+              should be as follows.<br />
+              <strong>boolean function_name(string sct_id, int sct_id_type)<br />
+              </strong>Here the sct_id is key used to store the security context token string
+              and sct_id_type is the id_type of the provided sct_id which can be either global
+              id or local id.</td>
+    </tr><tr>
+      <td class="confluenceTd">
+        SCTCallbackData</td>
+      <td class="confluenceTd">mixed</td>
+      <td class="confluenceTd">mixed</td>
+      <td class="confluenceTd">none</td>
+      <td class="confluenceTd" style="width: 415px">Any optional values that is required with the secure conversation callback functions
+        can be specified using this option.</td>
+    </tr>
+  </tbody>
+</table>
+<br />
+
+
+<h2 id="ws_client_svc_options">WSClient and WSService Options for
+Security</h2>
+
+<table border="1">
+  <tbody>
+    <tr>
+      <th id="policy_options">Option</th>
+      <th>Data Type</th>
+      <th style="width: 195px">Value Domain</th>
+      <th>Default Value</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>policy</td>
+      <td>WSPolicy</td>
+      <td style="width: 195px">WSPolicy instance</td>
+      <td>none</td>
+      <td>Policies to be used when using WS-Security.</td>
+    </tr>
+    <tr>
+      <td>securityToken</td>
+      <td>WSSecurityToken</td>
+      <td style="width: 195px">WSSecurityToken instance</td>
+      <td>none</td>
+      <td>User specific security parameters to be used when using
+      WS-Security.</td>
+    </tr>
+    <tr>
+      <td>
+                useOwnSTS</td>
+      <td>
+                boolean</td>
+      <td style="width: 195px">
+                boolean</td>
+      <td>
+                FALSE</td>
+      <td>
+                When this option is set to true, a security enabled service can act as a security
+                token service in addition to providing the service functionality.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br />
+Only a common subset of security options can be provided as user options. For
+more complex scenarios, you should provide the appropriate policy file.</p>
+<br />
+
+
+<h2 id="sec_policy_sample">WS-SecurityPolicy File Example</h2>
+
+<p><font face="Monospace">&lt;<font color="#000000">wsp</font>:<font
+color="#000000">Policy</font><font color="#000000">xmlns</font>:<font
+color="#000000">wsp</font>='http:<font
+color="#808080"><i>//schemas.xmlsoap.org/ws/2004/09/policy'&gt;<br />
+</i></font> &lt;<font color="#000000">wsp</font>:<font
+color="#000000">ExactlyOne</font>&gt;<br />
+&lt;<font color="#000000">wsp</font>:<font color="#000000">All</font>&gt;<br
+/>
+&lt;<font color="#000000">sp</font>:<font
+color="#000000">AsymmetricBinding</font><font
+color="#000000">xmlns</font>:<font color="#000000">sp</font>='http:<font
+color="#808080"><i>//schemas.xmlsoap.org/ws/2005/07/securitypolicy'&gt;<br />
+</i></font> &lt;<font color="#000000">wsp</font>:<font
+color="#000000">Policy</font>&gt;<br />
+&lt;<font color="#000000">sp</font>:<font
+color="#000000">InitiatorToken</font>&gt;<br />
+&lt;<font color="#000000">wsp</font>:<font
+color="#000000">Policy</font>&gt;<br />
+&lt;<font color="#000000">sp</font>:<font
+color="#000000">X509Token</font><font color="#000000">sp</font>:<font
+color="#000000">IncludeToken</font>='<font color="#000000">http</font>:<font
+color="#808080"><i>//schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/Always'&gt;<br
+/>
+</i></font> &lt;<font color="#000000">wsp</font>:<font
+color="#000000">Policy</font>&gt;<br />
+&lt;<font color="#000000">sp</font>:<font
+color="#000000">WssX509V3Token10</font>/&gt;<br />
+&lt;/<font color="#000000">wsp</font>:<font
+color="#000000">Policy</font>&gt;<br />
+&lt;/<font color="#000000">sp</font>:<font
+color="#000000">X509Token</font>&gt;<br />
+&lt;/<font color="#000000">wsp</font>:<font
+color="#000000">Policy</font>&gt;<br />
+&lt;/<font color="#000000">sp</font>:<font
+color="#000000">InitiatorToken</font>&gt;<br />
+&lt;<font color="#000000">sp</font>:<font
+color="#000000">RecipientToken</font>&gt;<br />
+&lt;<font color="#000000">wsp</font>:<font
+color="#000000">Policy</font>&gt;<br />
+&lt;<font color="#000000">sp</font>:<font
+color="#000000">X509Token</font><font color="#000000">sp</font>:<font
+color="#000000">IncludeToken</font>='<font color="#000000">http</font>:<font
+color="#808080"><i>//schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/Always'&gt;<br
+/>
+</i></font> &lt;<font color="#000000">wsp</font>:<font
+color="#000000">Policy</font>&gt;<br />
+&lt;<font color="#000000">sp</font>:<font
+color="#000000">WssX509V3Token10</font>/&gt;<br />
+&lt;/<font color="#000000">wsp</font>:<font
+color="#000000">Policy</font>&gt;<br />
+&lt;/<font color="#000000">sp</font>:<font
+color="#000000">X509Token</font>&gt;<br />
+&lt;/<font color="#000000">wsp</font>:<font
+color="#000000">Policy</font>&gt;<br />
+&lt;/<font color="#000000">sp</font>:<font
+color="#000000">RecipientToken</font>&gt;<br />
+&lt;<font color="#000000">sp</font>:<font
+color="#000000">AlgorithmSuite</font>&gt;<br />
+&lt;<font color="#000000">wsp</font>:<font
+color="#000000">Policy</font>&gt;<br />
+&lt;<font color="#000000">sp</font>:<font
+color="#000000">Basic256Rsa15</font>/&gt;<br />
+&lt;/<font color="#000000">wsp</font>:<font
+color="#000000">Policy</font>&gt;<br />
+&lt;/<font color="#000000">sp</font>:<font
+color="#000000">AlgorithmSuite</font>&gt;<br />
+&lt;<font color="#000000">sp</font>:<font
+color="#000000">Layout</font>&gt;<br />
+&lt;<font color="#000000">wsp</font>:<font
+color="#000000">Policy</font>&gt;<br />
+&lt;<font color="#000000">sp</font>:<font
+color="#000000">Strict</font>/&gt;<br />
+&lt;/<font color="#000000">wsp</font>:<font
+color="#000000">Policy</font>&gt;<br />
+&lt;/<font color="#000000">sp</font>:<font
+color="#000000">Layout</font>&gt;<br />
+&lt;<font color="#000000">sp</font>:<font
+color="#000000">IncludeTimestamp</font>/&gt;<br />
+&lt;<font color="#000000">sp</font>:<font
+color="#000000">EncryptBeforeSigning</font>/&gt;<br />
+&lt;<font color="#000000">sp</font>:<font
+color="#000000">OnlySignEntireHeadersAndBody</font>/&gt;<br />
+&lt;/<font color="#000000">wsp</font>:<font
+color="#000000">Policy</font>&gt;<br />
+&lt;/<font color="#000000">sp</font>:<font
+color="#000000">AsymmetricBinding</font>&gt;<br />
+&lt;<font color="#000000">sp</font>:<font color="#000000">Wss10</font><font
+color="#000000">xmlns</font>:<font color="#000000">sp</font>='http:<font
+color="#808080"><i>//schemas.xmlsoap.org/ws/2005/07/securitypolicy'&gt;<br />
+</i></font> &lt;<font color="#000000">wsp</font>:<font
+color="#000000">Policy</font>&gt;<br />
+&lt;<font color="#000000">sp</font>:<font
+color="#000000">MustSupportRefIssuerSerial</font>/&gt;<br />
+&lt;/<font color="#000000">wsp</font>:<font
+color="#000000">Policy</font>&gt;<br />
+&lt;/<font color="#000000">sp</font>:<font
+color="#000000">Wss10</font>&gt;<br />
+&lt;/<font color="#000000">wsp</font>:<font color="#000000">All</font>&gt;<br
+/>
+&lt;/<font color="#000000">wsp</font>:<font
+color="#000000">ExactlyOne</font>&gt;<br />
+&lt;/<font color="#000000">wsp</font>:<font
+color="#000000">Policy</font>&gt;<br />
+</font></p>
+</body>
+</html>

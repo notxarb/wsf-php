@@ -1,0 +1,120 @@
+WSO2 Web Services Framework for PHP v2.1.0 Released
+=====================================================
+
+We are pleased to announce the release of WSO2 WSF/PHP 2.1.0
+
+WSO2 Web Services Framework for PHP (WSO2 WSF/PHP), is an open source,
+enterprise grade, PHP extension for providing and consuming Web Services in PHP.
+WSO2 WSF/PHP is a complete solution for building and deploying Web services  and is 
+the only PHP extension with the widest range of WS-* specification implementations. 
+It's Key features include, secure services and clients with WS-Security support, 
+binary attachments with MTOM, automatic WSDL generation (code first model), 
+WSDL mode for both services and clients (contract first model) 
+and interoperability with .NET and J2EE.
+
+You can download the release from:
+http://wso2.org/downloads/wsf/php
+
+Project home page:
+http://wso2.org/projects/wsf/php
+
+------------
+Key Features
+============
+
+1. Client API to consume Web services
+      * WSMessage class to handle message level options
+      * WSClient class with both one way and two way service invocation support
+      * Option of using functions in place of object oriented API with ws_request
+
+2. Service API to provide Web services
+      * WSMessage class to handle message level options
+      * WSService class with support for both one way and two way operations
+      * Option of using functions in place of object oriented API with ws_reply
+
+3. Attachments with MTOM
+      * Binary optimized
+      * Non-optimized (Base64 binary)
+
+4. WS-Addressing
+      * Version 1.0
+      * Submission
+
+5. WS-Security 
+      * UsernameToken and Timestamp 
+      * Encryption
+      * Signing
+      * WS-SecurityPolicy based configuration
+      * WS-Secure Conversation
+
+6. WSDL Generation for Server Side
+      * WSDL generation based on annotations and function signatures, and 
+        serving on ?wsdl or ?wsdl2 requests
+
+7. WSDL mode support for both client and server side
+      * Write services and client based on a given WSDL
+      * WS-Addressing and WS-SecurityPolicy is supported in WSDL mode
+      * MTOM is now supported with WSDL mode
+  
+8. REST Support
+      * Expose a single service script both as SOAP and REST service
+
+9. Provide easy to use classes for common services
+      * Consume some well known services such as Yahoo search and Flickr 
+        and Amazon services using predefined classes
+
+10. wsdl2php.php script. This script can generate PHP classes for services 
+    and clients for a given WSDL to be used with WSDL Mode .
+
+11. Data Services API
+    PHP Data Services API that enables exposing database queries as web services.
+    
+
+--------------------------------
+Major Changes Since Last Release
+================================
+* Many issues were fixed since last release.
+* API Improvements for WS-Addressing, WS-Security.
+* Compatibility changes for PHP 5.3. 
+* Enabled built-in guththila xml parser.
+* Preformance enhancements.
+
+
+-------------------
+Reporting Problems
+===================
+Issues can be reported using the public JIRA available at:
+        https://wso2.org/jira/browse/WSFPHP
+
+------------
+Contact Us
+============
+
+-------------
+Mailing lists
+============
+Please subscribe to our user or developer mailing lists. For details on how
+to subscribe please visit: http://wso2.org/mail#wsfphp
+
+-----------------
+Discussion Forums
+==================
+Questions could be raised using the WSF/PHP forum.
+http://wso2.org/forum/188
+
+Training
+========
+WSO2 Inc. offers a variety of professional Training Programs which includes training on WSF/PHP.
+For additional support information please refer to http://wso2.org/training
+
+Support
+========
+WSO2 Inc. offers a variety of development and production support programs, ranging from Web-based support
+up through normal business hours, to premium 24x7 phone support. For additional support information
+please refer to http://wso2.com/support/
+
+We welcome your early feedback on this implementation.
+Thank you for your interest in WSO2 WSF/PHP.
+
+-- WSO2 WSF/PHP Team --
+

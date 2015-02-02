@@ -1,0 +1,163 @@
+echo_service.php - Echo service, accepts a payload and returns the same.
+                    Two way (in-out) sample.
+                    
+echo_client.php - Echo client, client for echo service. Sends a request
+                    and accepts a reply
+
+echo_client_soap11.php - Client for echo service using SOAP 1.1 protocol
+
+echo_service_addr.php - Echo service with WS-Addressing.
+
+echo_client_addr.php - Echo client with WS-Addressing.
+
+echo_client_multiple_invocation.php - Echo sample showing how to use the
+                    same client object instance to do repeated calls
+                   
+notify_service.php - Notify service, accepts a payload, but does not return 
+                    a reply. One way (in-only) sample.
+                    
+notify_client.php - Client for notify service. Sends a request and do not 
+                    expect a response.
+
+fault_client.php  - Client that receives a soap fault
+
+fault_service.php - Service that returns a custom soap fault
+
+math_service.php - Math service for add, sub, mul and div operations.Returns the
+                   reply for the operations.(In math directory)
+
+math_client.php  - Client with GUI for math service.Send the request and accept the 
+                    reply from math service.(In math directory)
+
+echo_client_rest.php - Client using rest GET call access a service using rest
+
+add_soap_header_client.php - Client that addes costom soap headers
+
+Function API Samples
+--------------------
+
+reply_echo_service.php - Echo service implemented with ws_reply() function.
+
+request_client_dom.php - Client for reply echo service, using ws_request() 
+                    function with payload in domDocument format.
+                    
+request_client_msg.php - Client for reply echo service, using ws_request() 
+                    function with payload in Axis2Message format.
+
+request_client_str.php - Client for reply echo service, using ws_request() 
+                    function with payload in string format.
+
+Accessing Google WebService API
+--------------------------------
+google/google_search.php - Google search sample. Needs a valid google key.
+                    Insert your key in the key element of the payload
+                    string given in this sample.
+
+google/google_spell.php - Google spell sample. Needs a valid google key.
+                    Insert your key in the key element of the payload
+                    string given in this sample.
+
+Accessing Yahoo WebService API
+------------------------------
+yahoo/yahoo_rest_client.php - A client assessing yahoo search using rest
+                     
+
+MTOM / Base64 Attachments
+--------------------------
+
+mtom/mtom_download_service.php - MTOM sample where the service sends an attachment 
+                    to the client. The image used is located in the resources 
+                    folder.
+                    
+mtom/mtom_download_client.php - Client for MTOM download service. Saves the MTOM
+                    attachment sent by the service. You have to save the file 
+                    to a globally writable folder. This sample uses '/tmp'.
+                    
+mtom/mtom_upload_service.php - MTOM sample where the service saves an attachment 
+                    sent by the client. You have to save the file to a globally
+                    writable folder. This sample uses '/tmp'. 
+                    
+mtom/mtom_upload_client.php - Client for MTOM upload service. Sends a file as an 
+                    attachment to the service. The image used is located in 
+                    the resources folder.
+
+mtom/mtom_upload_service_base64.php - A service that receives a base64 string attachement
+		    and saves it to a file.
+
+mtom/mtom_upload_client_base64.php - A client that send a image as a base64 encoded string
+		   to mtom_upload_service_base64.php
+
+Note: [ In the mtom samples, received image files are saved to /tmp folder. When running samples
+        on windows, please replace this "/tmp/" entry by some valid location on your file system as given in the example. 
+        E.g.:- C:\\tmp\\ ]
+                    
+WSDL generation samples
+-------------------------
+
+wsdl_generation/doclit_service.php - WSDL generation sample service for doc-lit style
+
+wsdl_generation/doclit_client.php -  WSDL mode client for the doclit_service.php
+
+wsdl_generation/rpc_service.php - WSDL generation sample service for rpc style
+
+
+Security Samples
+-----------------
+security/username_token/client.php		      - UsernameToken sample client
+security/username_token/service.php 		      - UsernameToken sample service
+security/username_token/policy_file_based/client.php  - UsernameToken sample client based on a policy file
+security/username_token/policy_file_based/service.php - UsernameToken sample service based on a policy file
+security/username_token/call_back/client.php  	      - UsernameToken sample client for password call back method
+security/username_token/call_back/service.php 	      - UsernameToken sample service for password call back method
+
+security/timestamp/client.php            	      - Timestamp  client
+security/timestamp/service.php           	      - Timestamp  service
+security/timestamp/policy_file_based/client.php       - Timestamp  client based on a policy file
+security/timestamp/policy_file_based/service.php      - Timestamp  service based on a policy file
+
+security/encryption/client.php             	      - Encryption Client
+security/encryption/service.php               	      - Encryption Service
+security/encryption/policy_file_based/client.php      - Encryption Client based on a policy file
+security/encryption/policy_file_based/service.php     - Encryption Service based on a policy file
+
+security/signing/client.php        		      - Signing Client 
+security/signing/service.php               	      - Signing Service
+security/signing/policy_file_based/client.php         - Signing Client based on a policy file
+security/signing/policy_file_based/service.php        - Signing Service based on a policy file
+
+security/secure_mtom/encryption/client.php 	      - MTOM upload client with encryption enabled
+security/secure_mtom/encryption/service.php 	      - MTOM upload service with encryption enabled
+security/secure_mtom/signing/client.php 	      - MTOM upload client with signing enabled
+security/secure_mtom/signing/service.php 	      - MTOM upload service with signing enabled
+
+security/secure_mtom/complete/client.php 	      - UsernameToken, Timestamp, Encryption and Siginig enabled client 
+security/secure_mtom/complete/service.php 	      - UsernameToken, Timestamp, Encryption and Siginig enabled Service
+
+WSDL mode
+----------
+
+wsdl_mode/wsdl_11_client.php                       - WSDL mode Client using WSDL 1.1 
+wsdl_mode/wsdl_11_service.php			   - WSDL mode Service using WSDL 1.1
+wsdl_mode/wsdl_20_client.php                       - WSDL mode Client using WSDL 2.0 
+wsdl_mode/wsdl_20_service.php			   - WSDL mode Service using WSDL 2.0
+
+
+Sudoku
+--------
+
+sudoku/sudoku_client.php                           - Client demonstrating  Addressing, MTOM 
+sudoku/sudoku_service.php                          - Service demonstrating Addressing, MTOM
+
+flicker
+--------
+
+filcker/flicker_client.php                         - Client for accessing flicker soap service
+
+SSL
+-------
+ssl_client.php                                     - Client by enabling HTTPS- Please refer README.SSL_CLIENT
+
+Solutions
+----------
+solutions/mashup_demo/demo.html		           - Solution to illustrate yahoo, flicker and amazon clients
+solutions/calendar 				   - Calendar system - Please refer solutions/calendar/README

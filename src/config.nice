@@ -1,0 +1,17 @@
+#! /bin/sh
+#
+# Created by configure
+
+CFLAGS='-g' \
+'./configure' \
+'--disable-option-checking' \
+'--prefix=/usr/local/lib/php/extensions/no-debug-zts-20090626/wsf_c' \
+'--with-wsf' \
+'--enable-openssl' \
+'--with-axis2=/home/nandika/work/wsfphp/2.1.0dist/wsf_c/axis2c/include' \
+'--enable-tcp=yes' \
+'--enable-tests=yes' \
+'--enable-savan=no' \
+'--with-xmpp' \
+'--with-archive' \
+"$@"

@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>WSO2 WSF Installation Guide</title>
+  <link href="style/api_style.css" rel="stylesheet" type="text/css"
+  media="all" />
+</head>
+
+<body xml:lang="en">
+<h1>WSO2 WSF/PHP Installation Guide</h1>
+
+<p>This document guides you on how to install the WSO2 Web Services
+Framework/PHP extension, and run the server and client samples on Linux and
+Microsoft Windows operating systems.</p>
+
+<p>Please send your feedback to the user mailing list: <a
+href="mailto:wsf-php-user@wso2.org">wsf-php-user@wso2.org</a>. <a
+href="mailto:wsf-c-dev-request@wso2.org?subject=subscribe">subcribe</a></p>
+
+<h2>Contents</h2>
+<ol>
+  <li>
+    &nbsp;<a href="#1.Installing_and_Running_on_Linux">Installing and Running on
+    Linux</a>
+    <ol>
+    <li>&nbsp;<a href="#Prerequisites">Prerequisites</a></li>
+    <li>&nbsp;<a href="#installing">Installing</a></li>
+    </ol>
+  </li>
+  <li><a href="#2.Installing_and_Running_on_Microsoft_windows">Installing
+    and Running on Microsoft Windows </a>
+    <ol>
+      <li><a href="#Prerequisites_win32">Prerequisites</a></li>
+      <li><a href="#Building">Building </a></li>
+       <li><a href="#Installing_WSO2_WSF/PHP_Binary">Installing WSO2 WSF/PHP Binary</a></li>
+  </ol>
+   </li>
+   <li><a href="#2.Installing_using_pecl_tool">Installing using pecl tool</a></li>
+  </ol>
+<a id="1.Installing_and_Running_on_Linux"></a><h2>1. Installing and Running on Linux</h2>
+<a id="Prerequisites"></a><h3>1.1 &nbsp;Prerequisites</h3>
+    <p>
+        &nbsp; &nbsp; &nbsp;In order to build and run the WSF/PHP Linux source distribution, you
+        need to have the following software installed on&nbsp; your system.</p>
+    <ol>
+    <li>PHP 5.2.0 or later, which can be downloaded from the <a
+    href="http://www.php.net/">
+            PHP </a>official Web site. Please refer to the additional note on installing
+        PHP as a DSO module to the Apache2 Web server.&nbsp; If you are using a pre-installed
+        version of PHP, please make sure that you have the developer version installed,
+        so that you can compile the WSO2 WSF/PHP source.</li>
+    <li> OpenSSL&nbsp; <a href="http://www.openssl.org/" >
+        Download</a> </li>
+    </ol>
+        
+    <a id="installing"></a><h3>1.2 &nbsp;Installing</h3>
+    
+    <p>
+        1. Go to the directory where you have extracted the source distribution.
+Run the following:</p>
+<ul>
+  <li>./configure</li>
+  <li>make</li>
+  <li>make install</li>
+</ul>
+
+<p>Note: You may require super user privileges to run 'make install' on your
+system.</p>
+
+<p>2. After installing the extension, you have to edit the php.ini file and
+add the following line to the php.ini<br />
+<b><i>extension=wsf.so&nbsp;</i></b></p><p>
+3. <a id="xsl"></a>If you have not enabled php_xsl extension that comes with PHP, then enable it as follows. &nbsp;&nbsp;
+    </p>
+    <p>
+        <strong><em>extension=xsl.so</em></strong></p>
+    <p>
+        <strong></strong>If you are using the source distribution, in order to install xsl extension go to ext/xsl directory
+        and do&nbsp;</p> <ul>
+                    <li>phpize</li> 
+                    <li>./configure</li> 
+                    <li>make</li>
+                    <li>make install</li>
+                    </ul>
+    <p>
+        Set extension_dir entry to point to your extension installation directory.
+    </p>
+    <p>
+        eg <strong>extension_dir="usr/local/lib/php/extensions/debug-zts-***"</strong>.
+        The last directory depends on your php version.</p>
+
+<p> Uncomment the <strong>include_path</strong> and edit it to point to the location for scripts folder as </p>
+<p><strong> include_path = ".:/path/to/scripts/folder"</strong> </p>
+
+
+
+<p>
+                4. Also, copy all the samples to your Web server's document root.</p>
+
+<p>
+    5. Test with a Web browser. For example, access <a href="http://localhost/samples/echo_client.php">http://localhost/samples/echo_client.php</a></p>
+
+<p></p>
+
+<p><i>Notes:</i></p>
+<ul>
+  <li><i>You may run './configure --help' for more information on configure
+    options.</i></li>
+  <li><i>If you don't provide the --prefix configure option, WSO2 WSF/PHP
+    will be installed into the PHP extensions directory by default.</i></li>
+  <li><i>If you provide the --prefix configure option, you will have to edit
+    the php.ini file in your system and add the following entry.</i></li>
+  <li><i>Note that WSO2 WSF/C will be installed to a folder named "wsf_c" in
+    the prefix folder.<br />
+    <b>[wsf] wsf.home="path to your wsf_c installation directory"</b><br />
+    <b>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;wsf.log_level=3</b><br />
+    </i></li>
+</ul>
+<a id="2.Installing_and_Running_on_Microsoft_windows"></a>
+
+<h2>2. Installing and Running on Microsoft Windows</h2>
+<a id="Prerequisites_win32"></a><h3>
+            2.1 Prerequisites</h3>
+
+
+    <p>
+            To build WSO2 WSF/PHP from source you will need the following dependency libraries.</p>
+   <p>
+        OpenSSL binary distribution (Use MSI installer) <a href="http://www.slproweb.com/products/Win32OpenSSL.html"> 
+    </p>
+    <p>
+        In addition you need to have Microsoft Visual Studio installed on your system. 
+        </p>
+    <a id="Building"></a>
+<h3><strong>2.2 Building </strong></h3>
+
+<p>
+        WSF/PHP extension is build on top of WSF/C Web Services Framework.&nbsp; The
+    extension source code is packaged with WSF/C code. When you download the wso2-wsf-php-src.zip
+    file, it will contain following directory structure.
+</p>
+    <pre>        wso2-wsf-php-src
+            | 
+            +---src 
+            | 
+            +--- wsf_c 
+            | 
+            +--- docs 
+            | 
+            +--- samples 
+            | 
+            +--- scripts 
+        </pre>
+      <p>  In the wso2-wsf-php-src
+        directory you will find a file named configure.in file. Open this file and set your
+        dependency directory locations to relevant entries. You can build with debug symbol
+        by setting DEBUG=1 option. Next run the build.bat file located in wso2-wsf-php-src
+        directory. It should build the binary dist pack to wso2-wsf-php-src directory.</p>
+    <p>
+        Now follow the installation steps under 2.4 Installing WSO2 WSF/PHP binary to configure
+        the extension.</p>
+    <p>
+        ( Before running the build.bat file, add your vcvars32.bat&nbsp; file location to
+        PATH environment variable. IF you are using vc2005, it is located in C:\Program
+        Files\Microsoft Visual Studio 8\VC\bin )</p>
+
+           
+<a id="Installing_WSO2_WSF/PHP_Binary"></a>
+
+<h3>
+            2.4 Installing WSO2 WSF/PHP Binary</h3>
+    <p>
+        1. If you built the extension from the source, you will find the wso2-wsf-php-bin-x.y.z-win32
+        (binary pack) located in your source directory.</p>
+    <p>
+        &nbsp; You can get the binary pack by downloading and extracting the binary distribution
+        as well.&nbsp;</p>
+    <p>
+        It will have the following structure</p>
+<pre>        wso2-wsf-php-bin-z.y.z-win32
+	           |
+                    +-- wsf_c
+                    |
+                    +-- wsf.dll
+                    |
+                    +-- docs
+                    |
+                    +-- scripts
+                    |
+                    +-- samples </pre>
+
+<p>
+                        2. Copy wsf.dll to the &lt;PHP installation directory&gt;/ext directory.</p>
+
+<p>
+    3. Add wso2-wsf-php-bin-x.y.z-win32\wsf_c\lib directory to the PATH environment variable.</p>
+    <p>
+        4. Add the above listed dependency library dlls to the PATH environment variable.</p>
+    <p>
+        5. Add the following entries to your php.ini file which is in your PHP
+installation location.</p>
+    <p>
+        Set entension_dir entry to your extensions directory.</p>
+<p>
+    <strong>extension_dir ="./ext"</strong></p>
+    <p>
+        <strong></strong>Enable wsf extension.<br />
+        <strong></strong><strong>
+       extension=wsf.dll </strong>
+    </p>
+    <p>
+        Set WSF/PHP configuration options.</p>
+    <p>
+    </p>
+    <p>
+       [wsf]
+    <br />
+        <strong>
+    wsf.home="&lt;path_to_extract_folder&gt;\wsf_c"
+    <br />
+    wsf.log_path="&lt;path to extract_folder&gt;\wsf_c\logs"
+    <br />
+    wsf.log_level=3 </strong>
+    </p>
+    <p>
+        <strong></strong><strong>wsf.rm_db_dir="&lt;path to extract_folder"&gt;\wsf_c"</strong></p>
+    <p>
+        Also enable php_xsl extension
+    </p>
+    <p>
+        <strong>extension = php_xsl.dll</strong></p>
+    <p> Uncomment the include_path and edit it to point to the
+       location for scripts folder as </p>
+    <p>
+        <strong>include_path = ".;/path/to/scripts/folder" </strong>
+   </p>
+    <p>
+        6. Configure the Apache2 Web server with PHP as follows.<br />
+    </p>
+
+<p>
+                        &nbsp; &nbsp;&nbsp;
+    6.1. Copy php5apache2.dll to Apache2/modules directory and add the following entries in httpd.conf file.<br />
+    </p>
+       <p>
+           <strong>&nbsp; &nbsp;&nbsp; LoadModule</strong> php5_module modules/php5apache2.dll <br />
+           <strong>&nbsp; &nbsp;&nbsp;
+          PHPIniDir</strong> "&lt; your php.ini file location> "<br /></p>
+    <p>
+      &nbsp; &nbsp;&nbsp; AddType application/x-httpd-php .php .phtml<br />
+      &nbsp; &nbsp;&nbsp;
+       AddType application/x-httpd-php-source .phps<br /></p>
+<p>
+    7. Copy the samples folder to your Apache Web server's
+document root. If you want to run samples</p>
+
+    <p>
+        Now you should be able to run the samples in the samples directory.</p>
+    <p>
+        Note:- We ship windows binary with SSL enabled by default. Therefore, you would
+        need to have ssl configured in apache as well.</p>
+        <a id="2.Installing_using_pecl_tool"></a>
+<h2>
+          3 Installing using pecl tool [ not available with 2.1.0 release ] </h2>
+    You can use the pecl tool to install WSO2 WSF/PHP.<br />
+    <br />
+    1. First you need to download and install<a href="http://dist.wso2.org/products/wsf/c/1.2.0/"> WSO2 WSF/C Web Services framework</a>
+    latest version. You
+    can use the source distribution.<br />
+    <br />
+    2. Download the WSO2 WSF/PHP pecl package. Next use pecl tool to install package.<br />
+    <strong>&nbsp; &nbsp; pecl install</strong> wso2_wsf_php_x.y.z.tgz<br />
+    &nbsp; &nbsp; Or
+    <br />
+    <strong>&nbsp; pecl install</strong> http://dist.wso2.org/products/wsf/php/wso2_wsf_php-x.y.z.tgz<br />
+    <br />
+    This will compile and install WSO2-WSF/PHP to you php extensions directory. It will
+    copy the docs to /usr/local/lib/php/doc/wso2_wsf_php directory and it will copy the
+    scripts and samples folders to the /usr/local/lib/php directory. Copy the
+    samples directory to Apache2 Servers document root.<br />
+    <br />
+    3.&nbsp; Add following entries to your php.ini file.
+    <br />
+    &nbsp; &nbsp;&nbsp; extension=wsf.so
+    <br />
+    &nbsp; &nbsp;&nbsp; wsf.home = /opt/wso2/wsf_c (This is the default installation location of WSF/C)<br />
+    &nbsp; &nbsp;&nbsp; log_level = 3
+    <br />
+    <br />
+    Uncomment the include_path entry and edit it to point to the location for scripts
+    folder as
+    <br />
+    include_path = ".:/usr/local/lib/php/wso2_wsf_php/scripts"
+    <br />
+    <br />
+    [ Note: You need to have <a href="#xsl">php_xsl</a> extension installed on your system for WSDL mode
+    to work. Also the above specified paths may change depending
+    on your system.]
+    <br />
+    <br />
+</body>
+</html>
