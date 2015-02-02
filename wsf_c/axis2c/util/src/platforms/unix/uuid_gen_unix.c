@@ -31,10 +31,10 @@
 #ifdef HAVE_LINUX_IF_H
 # include <linux/if.h>
 #else
+# ifdef HAVE_SYS_SOCKIO_H
+#  include <sys/sockio.h>
+# endif
 # ifdef HAVE_NET_IF_H
-#  ifdef HAVE_SYS_SOCKIO_H
-#    include <sys/sockio.h>
-#  endif
 #  include <net/if.h>
 #  include <net/if_arp.h>
 # endif
