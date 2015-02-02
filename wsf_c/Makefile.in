@@ -717,13 +717,13 @@ samples:
 	sh build_samples.sh $(prefix)
 
 install-data-hook:
-	cp -rf docs/* $(docsdir)
-	cp -rf examples/* $(samplesdir)
-	rm -rf `find $(samplesdir)/ -type d -name *.svn`
-	rm -rf `find $(samplesdir)/ -type d -name *.libs`
-	rm -rf `find $(samplesdir)/ -type d -name *.deps`
-	rm -rf `find $(samplesdir)/ -type f -name Makefile`
-	rm -rf `find $(samplesdir)/ -type d -name autom4te.cache`
+	cp -rf docs/* $(DESTDIR)$(docsdir)
+	cp -rf examples/* $(DESTDIR)$(samplesdir)
+	rm -rf `find $(DESTDIR)$(samplesdir)/ -type d -name *.svn`
+	rm -rf `find $(DESTDIR)$(samplesdir)/ -type d -name *.libs`
+	rm -rf `find $(DESTDIR)$(samplesdir)/ -type d -name *.deps`
+	rm -rf `find $(DESTDIR)$(samplesdir)/ -type f -name Makefile`
+	rm -rf `find $(DESTDIR)$(samplesdir)/ -type d -name autom4te.cache`
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

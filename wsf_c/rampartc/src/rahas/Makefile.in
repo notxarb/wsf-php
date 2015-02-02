@@ -593,7 +593,7 @@ uninstall-am: uninstall-prglibDATA uninstall-prglibLTLIBRARIES
 
 
 install-data-hook:
-	mv $(prefix)/modules/rahas/rahas_module.xml $(prefix)/modules/rahas/module.xml
+	mv $(DESTDIR)$(prefix)/modules/rahas/rahas_module.xml $(DESTDIR)$(prefix)/modules/rahas/module.xml
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

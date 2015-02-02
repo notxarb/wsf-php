@@ -23,5 +23,5 @@ INCLUDES = -I$(top_builddir)/include \
 			@AXIOMINC@
 
 install-data-hook:
-	mv $(prefix)/modules/rahas/rahas_module.xml $(prefix)/modules/rahas/module.xml
+	mv $(DESTDIR)$(prefix)/modules/rahas/rahas_module.xml $(DESTDIR)$(prefix)/modules/rahas/module.xml
 	

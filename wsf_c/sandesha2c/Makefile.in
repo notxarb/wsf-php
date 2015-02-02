@@ -786,7 +786,7 @@ uninstall-am: uninstall-dataDATA uninstall-docsDATA \
 
 
 install-data-hook:
-	mkdir -p $(samplesdir)
+	mkdir -p $(DESTDIR)$(samplesdir)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

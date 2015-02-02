@@ -503,7 +503,7 @@ uninstall-am: uninstall-prglibLTLIBRARIES
 
 
 install-data-hook:
-	cp -f $(prefix)/modules/sandesha2/libsandesha2* $(prefix)/lib/
+	cp -f $(DESTDIR)$(prefix)/modules/sandesha2/libsandesha2* $(DESTDIR)$(prefix)/lib/
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
