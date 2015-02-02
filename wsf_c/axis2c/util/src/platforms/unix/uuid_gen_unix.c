@@ -31,7 +31,7 @@
 #ifdef HAVE_LINUX_IF_H
 # include <linux/if.h>
 #else
-# ifdef HAVE_SYS_SOCKIO_H
+# ifdef __sun
 #  include <sys/sockio.h>
 # endif
 # ifdef HAVE_NET_IF_H
