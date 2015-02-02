@@ -825,8 +825,8 @@ bindist: $(bin_PROGRAMS)
 	rm -rf axis2c-bin-${PACKAGE_VERSION}-linux
 
 install-data-hook:
-	mkdir -p $(samplesdir)/src/axis2c
-	cp -rf samples/* $(samplesdir)/src/axis2c
+	mkdir -p $(DESTDIR)$(samplesdir)/src/axis2c
+	cp -rf samples/* $(DESTDIR)$(samplesdir)/src/axis2c
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
