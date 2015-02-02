@@ -20,7 +20,7 @@ EXTRA_DIST=LICENSE config xdocs build ides
 scripts_DATA=config/*.bat config/*.sh
 
 install-data-hook:
-	mkdir -p $(samplesdir)
-	cp -rf samples/* $(samplesdir)
+	mkdir -p $(DESTDIR)$(samplesdir)
+	cp -rf samples/* $(DESTDIR)$(samplesdir)
 
 
