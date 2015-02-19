@@ -27,6 +27,8 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/time.h>
+#include <time.h>
+#include <stdlib.h>
 
 #ifdef HAVE_LINUX_IF_H
 # include <linux/if.h>
@@ -69,6 +71,17 @@ axutil_uuid_gen_v1()
     if(AXIS2_TRUE == axutil_uuid_gen_is_first)
     {
         char *mac_addr = axutil_uuid_get_mac_addr();
+        if (mac_addr == NULL)
+        {
+            srand(time(NULL));
+            mac_addr = malloc(6 * sizeof(char));
+            mac_addr[0] = 0x88;
+            mac_addr[1] = 0x00;
+            mac_addr[2] = 0x20;
+            mac_addr[3] = rand() % 0xFF;
+            mac_addr[4] = rand() % 0xFF;
+            mac_addr[4] = rand() % 0xFF;
+        }
         memcpy(axutil_uuid_static.mac, mac_addr, 6);
         axutil_uuid_static.time_seq = 0;
         axutil_uuid_static.clock = 0;
